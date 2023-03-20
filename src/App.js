@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import {Route,Routes } from 'react-router-dom';
+import Login from './pages/Login'
+import Home from './pages/Home'
+import {getAuth, onAuthStateChanged} from 'firebase/auth'
+import { useEffect,useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import Navbar from './components/Navbar';
 import './App.css';
 
 function App() {
+  const [currentUser, setCurrentUser]=useState(null)
+  const navigate = useNavigate()
+  const auth = getAuth()
+  
+  useEffect(()=>{
+    
+   onAuthStateChanged(auth,(user)=>{
+      if(user){
+        setCurrentUser(user)
+        navigate('/home')
+      }else{
+        navigate('/')
+      }
+   })
+    
+
+  },[])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    {currentUser&&<Navbar currentUser={currentUser}/>}
+    <Routes>
+      <Route path='/home'element={<Home currentUser={currentUser}/>}/> 
+      <Route path='/' element={<Login/>}/>
+    </Routes>
+    
     </div>
   );
 }

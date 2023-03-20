@@ -1,0 +1,39 @@
+.areaExterna{
+    position:fixed;
+    height:100vh;
+    width:100vw;
+    background-color:rgb(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.caixaModal{
+    background-color: white;
+    height:30vh;
+    width:80vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    h3{
+        position:relative;
+        left:40%;
+        top:0%;
+    }
+    button{
+        margin-top: 10px;
+        width:150px;
+        padding: 5px 10px;
+    }
+    .materialUtilizado{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        select{
+            height:30px;
+            margin: 10px 0;
+            width:100%;
+        }
+    }
+}

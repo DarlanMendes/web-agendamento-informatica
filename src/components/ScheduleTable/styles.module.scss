@@ -1,0 +1,64 @@
+.scheduleTable {
+    max-width: 800px;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+   align-items: center;
+   .selecaoTurno{
+    background-color: rgb(100, 100, 164);
+    color: white;
+    margin: 10px 0;
+    font-size: 20px;
+    padding: 5px 10px;
+    border-radius: 4px;
+   }
+    .data{
+        width:60%;
+        font-size: 23px;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        align-items: center;
+        margin: 10px 0;
+    }
+    .tabelaHorario {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin: 10px 0;
+        border-radius: 9px;
+        .horario {
+            width: 35%;
+            background-color: rgb(43, 51, 134);
+            color: white;
+            font-weight: 600;
+            border-radius: 9px;
+        }
+
+        .dadosAgendamento {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 10px;
+            width:100%;
+            .botaoSelecao{
+                margin-top: 5px;
+                button{
+                    padding: 5px 10px;
+                    margin-left: 10px;
+                    border-radius: 4px;
+                    color:white;
+                    font-weight: 600;
+                }
+               
+            }
+        }
+
+        -webkit-box-shadow: 6px 6px 33px -4px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 6px 6px 33px -4px rgba(0, 0, 0, 0.75);
+        box-shadow: 6px 6px 33px -4px rgba(0, 0, 0, 0.75);
+    }
+
+
+}
