@@ -28,10 +28,14 @@ export default function Modal(props) {
                 user,
                 data,
                 material,
-                schedule
+                schedule,
+                uid:props.currentUser.uid
                 
              });
              console.log("Document written with ID: ", docRef.id);
+             props.setModal(false)
+             props.mudarDia(0)
+
         }
         
 

@@ -13,6 +13,7 @@ export default function ScheduleTable(props) {
     const [schedules, setSchedules] = useState(manha)
     const [modal, setModal] = useState(false)
     const[reserves, setReserves]=useState()
+    const[timeReserved,setTimeReserved]=useState()
    
     const db = getFirestore(app);
     async function receberLista() {
@@ -40,6 +41,7 @@ export default function ScheduleTable(props) {
     useEffect(() => {
         
         receberLista()
+        
     },[data])
 
     function filtrarLista(schedule){
@@ -89,15 +91,15 @@ export default function ScheduleTable(props) {
                             <div> Material a ser utilizado : {filtrarLista(schedule)?.material}</div>
                             <div> Professor:  {filtrarLista(schedule)?.user}</div>
                             <div className={styles.botaoSelecao}>
-                                {((props.currentUser?.displayName.split(' ')[0]===filtrarLista(schedule)?.user)||(!filtrarLista(schedule)))&&<div>
-                                <button style={{ backgroundColor: '#338f33' }} onClick={() => { setModal(!modal) }}> editar </button>
+                                {((props.currentUser?.uid===filtrarLista(schedule)?.uid)||(!filtrarLista(schedule)))&&<div>
+                                <button style={{ backgroundColor: '#338f33' }} onClick={() => { setModal(!modal); setTimeReserved(schedule) }}> editar </button>
                                 <button style={{ backgroundColor: '#e22424' }}> deletar</button>
                                 </div>}
                             </div>
                         </div>
 
                     </div>
-                    {modal && <Modal data={data} schedule={schedule} currentUser={props.currentUser} setModal={setModal} modal={modal} />}
+                    {modal && <Modal data={data} schedule={timeReserved} currentUser={props.currentUser} setModal={setModal} modal={modal} mudarDia={mudarDia} />}
 
 
                 </>
