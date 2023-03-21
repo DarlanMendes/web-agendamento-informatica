@@ -2,8 +2,9 @@ import styles from './styles.module.scss';
 import Modal from '../Modal'
 import { useEffect, useState } from 'react';
 import { BsArrowLeftCircleFill, BsArrowRightCircleFill } from 'react-icons/bs'
-import { collection, query, where, getDocs,getFirestore} from "firebase/firestore";
+import { collection, where, getDocs,getFirestore} from "firebase/firestore";
 import {app} from '../../db/firebaseConf'
+
 export default function ScheduleTable(props) {
     let manha = ['07h00 - 07h50', '07h50 - 08h40', '08h40 - 09h50', '9h50 - 10h40', '10h40 - 11h30', '11h30 - 12h20']
     let tarde = ['13h00 - 13h50', '13h50 - 14h40', '14h40 - 15h50', '15h50 - 16h40', '16h40 - 17h30', '17h30 - 18h20']
@@ -12,15 +13,21 @@ export default function ScheduleTable(props) {
     const [schedules, setSchedules] = useState(manha)
     const [modal, setModal] = useState(false)
     const[reserves, setReserves]=useState()
+   
     const db = getFirestore(app);
     async function receberLista() {
         
-        const querySnapshot = await getDocs(collection(db, "reserva"), where("data", "==", data));
-       
-        querySnapshot.forEach((doc) => {
-           // console.log(doc.id, " => ", doc.data());
-        });
-        setReserves(querySnapshot)
+        const querySnapshot = await getDocs(collection(db, "reserva"),where('data','==','21/03/2023'));
+        
+        let teste = []
+        querySnapshot.forEach((doc)=>{
+            
+            if(doc.data().data===formatarData()){
+                teste.push(doc.data())  
+            }
+        })
+        setReserves(teste)
+        
     }
     const mudarDia = (dias) => {
         const novaData = new Date(data);
@@ -35,7 +42,15 @@ export default function ScheduleTable(props) {
         receberLista()
     },[data])
 
-
+    function filtrarLista(schedule){
+        let reserva
+        reserves?.forEach((reserve)=>{
+            if(reserve.schedule===schedule){
+                reserva = reserve
+            }
+        })
+        return reserva
+    }
    
     const handleSchedule = (e) => {
         if (e.target.value === 'manha') {
@@ -48,16 +63,7 @@ export default function ScheduleTable(props) {
             setSchedules(noite)
         }
     }
-    function filtrarMaterial(schedule){
-     let reservaFiltrada = null;
-      reserves.forEach((reserve)=>{
-        if(reserve.data().schedule===schedule&&reserve.data().data===formatarData()){
-            reservaFiltrada = reserve.data().material
-        }
-      })
-      
-      return reservaFiltrada
-    }
+    
     return (
         <div className={styles.scheduleTable}>
             <div className={styles.data}>
@@ -80,11 +86,13 @@ export default function ScheduleTable(props) {
                             </h3>
                         </div>
                         <div className={styles.dadosAgendamento}>
-                            <div> Material a ser utilizado : {reserves&&`${filtrarMaterial(schedule)}`}</div>
-                            <div> Professor: </div>
+                            <div> Material a ser utilizado : {filtrarLista(schedule)?.material}</div>
+                            <div> Professor:  {filtrarLista(schedule)?.user}</div>
                             <div className={styles.botaoSelecao}>
+                                {((props.currentUser?.displayName.split(' ')[0]===filtrarLista(schedule)?.user)||(!filtrarLista(schedule)))&&<div>
                                 <button style={{ backgroundColor: '#338f33' }} onClick={() => { setModal(!modal) }}> editar </button>
                                 <button style={{ backgroundColor: '#e22424' }}> deletar</button>
+                                </div>}
                             </div>
                         </div>
 

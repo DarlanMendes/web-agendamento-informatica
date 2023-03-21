@@ -16,7 +16,9 @@ function App() {
     
    onAuthStateChanged(auth,(user)=>{
       if(user){
+      
         setCurrentUser(user)
+        
         navigate('/home')
       }else{
         navigate('/')
