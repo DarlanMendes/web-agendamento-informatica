@@ -1,9 +1,10 @@
 import styles from './styles.module.scss';
 import Modal from '../Modal'
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { BsArrowLeftCircleFill, BsArrowRightCircleFill } from 'react-icons/bs'
-import { collection, where, getDocs,getFirestore} from "firebase/firestore";
+import { collection, getDocs,getFirestore} from "firebase/firestore";
 import {app} from '../../db/firebaseConf'
+import { LoadingContext } from '../../App';
 
 export default function ScheduleTable(props) {
     let manha = ['07h00 - 07h50', '07h50 - 08h40', '08h40 - 09h50', '9h50 - 10h40', '10h40 - 11h30', '11h30 - 12h20']
@@ -14,12 +15,13 @@ export default function ScheduleTable(props) {
     const [modal, setModal] = useState(false)
     const[reserves, setReserves]=useState()
     const[timeReserved,setTimeReserved]=useState()
+   const {setIsLoading} = useContext(LoadingContext)
    
     const db = getFirestore(app);
     async function receberLista() {
-        
-        const querySnapshot = await getDocs(collection(db, "reserva"),where('data','==','21/03/2023'));
-        
+        setIsLoading(true)
+        const querySnapshot = await getDocs(collection(db, "reserva"));
+        setIsLoading(false)
         let teste = []
         querySnapshot.forEach((doc)=>{
             
@@ -42,6 +44,7 @@ export default function ScheduleTable(props) {
         
         receberLista()
         
+       
     },[data])
 
     function filtrarLista(schedule){

@@ -2,11 +2,15 @@ import { useNavigate } from "react-router-dom";
 import Auth from "../../db/Authentication"
 import { GoogleAuthProvider } from "firebase/auth";
 import styles from './styles.module.scss';
-import {FcGoogle} from 'react-icons/fc'
+import {FcGoogle} from 'react-icons/fc';
+
 const provider = new GoogleAuthProvider();
 
 
 export default function Login() {
+  
+ 
+
   const navigate = useNavigate()
   const LoginGoogle = () => {
     Auth.Login().then((result) => {
@@ -17,7 +21,7 @@ export default function Login() {
       const user = result.user;
       // IdP data available using getAdditionalUserInfo(result)
       // ...
-      console.log(credential, '  token:', token, '  _user:', user)
+      console.log( token, 'token')
       navigate('/home')
     }).catch((error) => {
       // Handle Errors here.
@@ -36,6 +40,7 @@ export default function Login() {
 
   return (
     <div className={styles.backgroundLogin}>
+      
       <div className={styles.loginContainer}>
        <h2>
        Para acessar o agendamento faça o login com o seu Gmail
