@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import Modal from '../Modal'
 import { useContext, useEffect, useState } from 'react';
 import { BsArrowLeftCircleFill, BsArrowRightCircleFill } from 'react-icons/bs'
-import { collection, getDocs,getFirestore} from "firebase/firestore";
+import { collection, getDocs,getFirestore, deleteDoc,doc} from "firebase/firestore";
 import {app} from '../../db/firebaseConf'
 import { LoadingContext } from '../../App';
 
@@ -26,11 +26,13 @@ export default function ScheduleTable(props) {
         querySnapshot.forEach((doc)=>{
             
             if(doc.data().data===formatarData()){
-                teste.push(doc.data())  
+               let union = Object.assign({},{id:doc.id},doc.data())
+               console.log(union)
+                teste.push(union)  
             }
         })
         setReserves(teste)
-        
+        console.log(teste)
     }
     const mudarDia = (dias) => {
         const novaData = new Date(data);
@@ -69,6 +71,14 @@ export default function ScheduleTable(props) {
         }
     }
     
+    async function deletarReserva(id){
+        setIsLoading(true)
+       await deleteDoc(doc(db, "reserva", id));
+       alert('Reserva deletada com sucesso')
+       setIsLoading(false)
+       mudarDia(0)
+     
+    }
     return (
         <div className={styles.scheduleTable}>
             <div className={styles.data}>
@@ -96,7 +106,7 @@ export default function ScheduleTable(props) {
                             <div className={styles.botaoSelecao}>
                                 {((props.currentUser?.uid===filtrarLista(schedule)?.uid)||(!filtrarLista(schedule)))&&<div>
                                 <button style={{ backgroundColor: '#338f33' }} onClick={() => { setModal(!modal); setTimeReserved(schedule) }}> editar </button>
-                                <button style={{ backgroundColor: '#e22424' }}> deletar</button>
+                               {filtrarLista(schedule)?.id&&<button style={{ backgroundColor: '#e22424' }} onClick={()=>{deletarReserva(filtrarLista(schedule)?.id)}}> deletar</button> } 
                                 </div>}
                             </div>
                         </div>
