@@ -36,7 +36,7 @@ function App() {
     <div className="App">
       <LoadingContext.Provider value={{isLoading,setIsLoading}}>
         <Loading/>
-        {currentUser && <Navbar currentUser={currentUser} />}
+        {currentUser && <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />}
 
         <Routes>
           <Route path='/home' element={<Home currentUser={currentUser} />} />
