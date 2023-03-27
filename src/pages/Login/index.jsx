@@ -21,7 +21,7 @@ export default function Login() {
       const user = result.user;
       // IdP data available using getAdditionalUserInfo(result)
       // ...
-      console.log( token, 'token')
+      console.log('Logado')
       navigate('/home')
     }).catch((error) => {
       // Handle Errors here.

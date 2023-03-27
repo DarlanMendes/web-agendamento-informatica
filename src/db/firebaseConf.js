@@ -2,6 +2,8 @@
 import { initializeApp } from "firebase/app";
 
 
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyAJEin4M3liVuJgJYIDGPB0mCSf_YavGzw",
   authDomain: "agendamento-informatica-ja.firebaseapp.com",

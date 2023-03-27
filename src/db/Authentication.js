@@ -1,4 +1,4 @@
-import { getAuth, setPersistence, signInWithPopup, GoogleAuthProvider, browserSessionPersistence } from "firebase/auth";
+import { getAuth, setPersistence, signInWithPopup, GoogleAuthProvider, inMemoryPersistence } from "firebase/auth";
 import { app } from "./firebaseConf";
 const provider = new GoogleAuthProvider();
 
@@ -6,7 +6,7 @@ const auth = getAuth(app);
 export default {
     Login: async () => {
         try {
-            setPersistence(auth, browserSessionPersistence)
+            setPersistence(auth)
             return signInWithPopup(auth, provider)
         }
         catch (error) {
